@@ -6,7 +6,8 @@
 	}
 
     function dd($v){
-       echo "<pre>".die(var_dump($v))."</pre>";
+        dump($v);
+        exit;
     }
 
     //web的目錄

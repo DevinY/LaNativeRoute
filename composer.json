@@ -25,5 +25,8 @@
             "App\\": "models/",
             "Rf\\":"classes/"
         }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^4.2"
     }
 }
