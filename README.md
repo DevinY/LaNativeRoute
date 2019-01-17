@@ -13,3 +13,8 @@
 composer install
 </pre>
 
+<pre>
+路由:/content/1
+變數資料夾_var_
+$n=input("var");
+</pre>

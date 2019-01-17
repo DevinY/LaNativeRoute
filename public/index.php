@@ -1,10 +1,12 @@
 <?php
 error_reporting(E_ALL);
-ini_set( 'display_errors','0');
-
-include(__DIR__."/../common/sys_functions.php");
+ini_set( 'display_errors','1');
 
 include(__DIR__."/../vendor/autoload.php");
+include(__DIR__."/../common/sys_functions.php");
+if(!session_id()) {
+    session_start();
+}
 
 //https://packagist.org/packages/illuminate/database
 use Illuminate\Database\Capsule\Manager as DB;
@@ -33,9 +35,6 @@ $capsule->addConnection([
 
 //預設的目錄
 $base_path = base_path();
-if(!session_id()) {
-	session_start();
-}
 
 //URL的PHP
 $controller = $_SERVER['REQUEST_URI'];
@@ -47,6 +46,8 @@ if(preg_match('/.+\\?/uU', $controller)){
 if($controller=="/"){
     $controller="/index";
 }
+
+$controller = route($controller);
 
 $controller_path = $base_path.sprintf("/controllers%s.php", $controller);
 

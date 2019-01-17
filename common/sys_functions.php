@@ -5,14 +5,9 @@
         header("Location: $url");
 	}
 
-    function dd($v){
-        dump($v);
-        exit;
-    }
-
     //web的目錄
     function base_path(){
-        return sprintf(__DIR__."/..");
+        return realpath(sprintf(__DIR__."/.."));
     }
 
     function storage_path($path=""){
@@ -22,6 +17,57 @@
             return sprintf(__DIR__."/../../storage/".$path);
         }
     }
+    //_var_的資料夾名稱，會使用變數傳送
+    function input($v){
+        foreach($_GET as $key=>$value){
+            if(preg_match("/\\d\\|_".$v."_$/uU", $key)){
+                return $value;
+            }
+        }
+    }
+    //處理變數資料夾
+    function route($controller){
+        $var_index=0;
+        $folders = explode("/",$controller);
+        $foldern = "";
+        foreach($folders as $index=>&$folder){
+            if($folder!="") $foldern.=$folder."/";
+            //dump("foldern:".$foldern);
+            $path = sprintf("%s%s", base_path()."/controllers/", $foldern);
+            //dump($path);
+            $check_path=rtrim($path,"/");
+            if(file_exists($path)){
+                $dir = glob($check_path."/_*_");
+                if(count($dir)==1){
+                   $arr_folder=explode("/", $dir[0]);
+                   $var = end($arr_folder); //get last folder
+                   if(array_key_exists($index+1, $folders)){
+                        $_GET[$var_index."|".$var]=$folders[$index+1];
+                        $var_index+=1;
+                        $folders[$index+1]=$var;
+                   } else{
+                        abort(404); 
+                   }
+               }
+               if(count($dir)>1){
+                die("A folder can only have one variable folder!!");
+            }
+        }else{
+            //檢測是否有變數資料夾
+            if(count($folders)==($index+1)){
+                $path = sprintf("%s.php",rtrim($path,"/"));
+                $folders[$index]=sprintf("%s", $folder);
+            }
+
+        }
+    }
+    $route = implode("/",$folders);
+    //檢測endpoint是否有檔案，沒有自動補index.php
+    if(file_exists(sprintf("%s%s", base_path()."/controllers", $route))){
+        $route.="/index";
+    }
+    return $route;
+}
 
     //移除問號後的字串
     function strip_parameter($request_uri="", $pattern_num="2"){
