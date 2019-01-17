@@ -1,10 +1,12 @@
-# route_free
+# LaNativeRoute
 
-## route_free 說明
+## LaNativeRoute 說明
 
-捨棄路由，回歸檔案系統的方式載入php。
+自行組裝的輕量框架。
 
-保留部份我喜歡的特點，像是Model及Blade等。
+捨棄路由檔案，由檔案系統的決定路由。
+
+保留在Laravel中，我喜歡的特點，像是Model及Blade等。
 
 沒有太多限制，極度客制化。
 
