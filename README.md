@@ -21,7 +21,9 @@ LaNativeRoute 使用獨創的_變數資料夾_(_var_)將變數傳入controller�
 
 例如:
 網址: /content/1
-資料夾為:/content/_id_/index.php
+資料夾為:
+/controllers/content/_id_/index.php
+/views/content/_id_/index.blade.php  (非必要，如果controllers的index.php只是想吐json，可直接回傳array即可，同Laravel)
 於index.php中，我們可以透過
 $id = input("id"); 
 取得資料夾的變數名稱
